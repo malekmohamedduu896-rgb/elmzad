@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مالك جيمز – مزاد اللاعيبة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f7;--card:#fff;--ink:#101a3a;--mut:#5a6584;--acc:#f0a500;--on:#101a3a;--good:#1a9d5c;--bad:#d64545;--line:#d5dbea;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1226;--card:#141d38;--ink:#eef2ff;--mut:#9aa6c9;--acc:#ffb81f;--good:#3ddc8a;--bad:#ff6b6b;--line:#26325a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b1226;--card:#141d38;--ink:#eef2ff;--mut:#9aa6c9;--acc:#ffb81f;--good:#3ddc8a;--bad:#ff6b6b;--line:#26325a;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Cairo,system-ui,"Segoe UI",Tahoma,sans-serif;line-height:1.6}
+main{max-width:520px;margin:0 auto;padding:16px}
+h1{margin:4px 0 2px;font-size:30px;font-weight:900}
+.sub{margin:0 0 16px;color:var(--mut)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+.c{text-align:center}
+.bar{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;margin-bottom:12px}
+.bar div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 12px;text-align:center}
+.bar small,.teams small{display:block;color:var(--mut);font-size:13px}
+.bar b{font-size:22px;font-weight:900}
+.bar .on{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc)}
+.turn{margin:0 0 8px;font-weight:900}
+.stage{margin:8px auto 12px;width:170px;padding:16px 8px 12px;border-radius:18px 18px 40px 40px;background:var(--acc);color:var(--on)}
+.stage .r{font-size:56px;font-weight:900;line-height:1}
+.stage small{display:block;font-weight:700}
+.stage h2,.stage h3{margin:4px 0 0;font-size:22px;font-weight:900}
+.msg{min-height:26px;margin:4px 0 12px;font-weight:700}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+button{font:inherit;font-weight:700;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.go{background:var(--acc);color:var(--on);border-color:transparent;width:100%;margin-top:8px;font-size:18px}
+.fold{grid-column:1/-1;color:var(--bad);border-color:var(--bad)}
+.teams{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.teams>div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px}
+.chip{display:block;font-size:14px;padding:2px 0}
+.chip b{display:inline-block;min-width:28px;text-align:center;background:var(--acc);color:var(--on);border-radius:6px;margin-inline-end:4px}
+.chip i{font-style:normal;color:var(--mut);font-size:12px;margin-inline-end:4px}
+.score{display:flex;justify-content:center;align-items:center;gap:12px;font-weight:700;margin-bottom:8px}
+.score b{font-size:44px;font-weight:900}
+.ev{margin:6px 0;text-align:start}
+.tick{margin:0 0 8px;color:var(--mut);font-weight:700}
+.net{position:relative;height:120px;max-width:240px;margin:0 auto 12px;border:4px solid var(--ink);border-bottom:0;border-radius:6px 6px 0 0;overflow:hidden;background:repeating-linear-gradient(45deg,transparent 0 7px,var(--line) 7px 8px),repeating-linear-gradient(-45deg,transparent 0 7px,var(--line) 7px 8px);animation:shake .4s .85s}
+.net .ball{position:absolute;left:50%;bottom:-40px;font-size:34px;animation:shoot .9s cubic-bezier(.2,.7,.3,1) forwards}
+.net .gl{position:absolute;left:0;right:0;bottom:8px;font-size:30px;font-weight:900;color:var(--acc);animation:pop .4s .8s both}
+@keyframes shoot{from{transform:translate(-50%,0) scale(1.8)}to{transform:translate(-50%,-90px) scale(.8)}}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media (prefers-reduced-motion:reduce){.net,.net .ball,.net .gl{animation:none}.net .ball{bottom:50px;transform:translateX(-50%)}}
+.k-goal{font-weight:900;color:var(--good)}.k-red{color:var(--bad);font-weight:700}.k-var,.k-pen{color:var(--mut);font-weight:700}.k-sys{font-weight:700}.vd{text-decoration:line-through}
+.mv{margin:12px 0;padding:10px;border-radius:12px;background:var(--acc);color:var(--on);font-weight:700}.mv b{font-size:22px}
+.pks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.pk{min-height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px}
+.pk .big{font-size:38px}.pk .r{background:var(--acc);color:var(--on);border-radius:6px;padding:0 8px;font-size:22px}
+.pk.op{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc)}.pk.tk{opacity:.6}.pk small{color:var(--mut);font-weight:500;font-size:12px}
+.cov{display:flex;align-items:center;justify-content:center;gap:10px;margin:4px 0 8px}
+.cov .r{background:var(--acc);color:var(--on);border-radius:6px;padding:0 8px;font-size:22px}.cov span{font-weight:900;font-size:18px}
+.ex{margin:0 0 8px;font-weight:700}
+.sq{text-align:start;margin:8px 0;font-size:14px;border-top:1px solid var(--line);padding-top:6px}.sq p{margin:2px 0}
+.hn{list-style:none;padding:0;margin:0 0 8px;font-weight:700}.hn li{margin:4px 0}.hn li::before{content:'💡 '}
+.vd2{font-weight:900;margin:6px 0}.vd2.g{color:var(--good)}.vd2.b{color:var(--bad)}
+.win{color:var(--good)}.lose{color:var(--bad)}
+</style>
+</head>
+<body>
+<main>
+<h1>⚽ مالك جيمز</h1>
+<p class="sub">ابني تشكيلتك بالمزاد وواجه الكمبيوتر أو صاحبك</p>
+<section id="app"></section>
+</main>
+<script>
+const BASE=3,START=100,SLOTS=['GK','DF','DF','MF','MF','FW','CO'],ROUNDS=7;
+const PN={GK:'حارس مرمى',DF:'مدافع',MF:'لاعب وسط',FW:'مهاجم',CO:'مدرب'},SN={GK:'حارس',DF:'دفاع',MF:'وسط',FW:'هجوم',CO:'مدرب'},ORD={GK:0,DF:1,MF:2,FW:3,CO:4};
+const D={
+eng:{GK:'أليسون:88,دوناروما:87,رايا:85',DF:'فان دايك:88,روبن دياز:87,ساليبا:86,جفارديول:85,ريس جيمس:83',MF:'رودري:90,رايس:88,بالمر:87,أوديجارد:87,برونو فرنانديز:86',FW:'هالاند:93,محمد صلاح:90,ساكا:86,إيزاك:85',CO:'جوارديولا:94,أرتيتا:88,أرني سلوت:88,أوناي إيمري:87,ماريسكا:84'},
+esp:{GK:'كورتوا:89,تير شتيجن:87,أوبلاك:86',DF:'روديجر:85,أراوخو:85,أرنولد:85,كوبارسي:84,ميليتاو:84',MF:'بيلينجهام:89,بيدري:86,فالفيردي:86,تشواميني:85,دي يونج:85',FW:'مبابي:93,فينيسيوس:90,يامال:88,ليفاندوفسكي:87',CO:'فليك:90,سيميوني:90,تشابي ألونسو:88,مارسيلينو:84'},
+ita:{GK:'ميجنان:87,سومر:85,ميريتي:78',DF:'باستوني:85,بريمر:84,ديماركو:84,بوانجورنو:82,دي لورينزو:80',MF:'دي بروين:87,باريلا:85,تشالهانوغلو:85,ماكتوميناي:84,لوكمان:83',FW:'لاوتارو:88,ليياو:85,فلاهوفيتش:84,لوكاكو:83',CO:'كونتي:90,أليجري:88,جاسبيريني:87,سباليتي:87,كيفو:82'},
+ger:{GK:'كوبل:85,نوير:84,باومان:80',DF:'كيم مين جاي:84,تاه:84,أوباميكانو:84,ديفيز:83,شلوتربيك:83',MF:'موسيالا:87,كيميتش:86,غوريتسكا:82,أندريتش:82,بافلوفيتش:80',FW:'هاري كين:91,لويس دياز:86,أوليسي:85,غيراسي:83',CO:'كومباني:88,كوفاتش:82,هوينس:80,توبمولر:78'},
+fra:{GK:'سافونوف:84,شيفالييه:82,رولي:80',DF:'حكيمي:86,ماركينيوس:86,باتشو:85,نونو مينديش:85,دانيلو بيريرا:80',MF:'فيتينيا:86,روييز:85,جواو نيفيس:85,زائير-إيمري:84',FW:'ديمبيلي:91,كفاراتسخيليا:88,دوي:87,باركولا:85',CO:'لويس إنريكي:92,دي زيربي:86,جينيزيو:82'},
+egy:{GK:'محمد الشناوي:74,مصطفى شوبير:72,أحمد الشناوي:72,محمد صبحي:71,جنش:71,محمد عواد:70',DF:'ياسر إبراهيم:72,رامي ربيعة:72,محمد هاني:71,أحمد فتوح:70,الونش:70,محمد عبد المنعم:70,حسام عبد المجيد:69,ياسين مرعي:69,أشرف داري:68,عمر كمال:68',MF:'تريزيجيه:78,زيزو:76,إمام عاشور:75,بن شرقي:75,عبد الله السعيد:72,مروان عطية:72,ناصر ماهر:71,عمرو السولية:70,أكرم توفيق:70,مصطفى فتحي:70',FW:'وسام أبو علي:74,مايلي:74,محمد شريف:72,كهربا:72,حسين الشحات:72,مروان حمدي:70,مهند لاشين:70',CO:'ريفيرو:78,يورتشيتش:76,جوميز:76,حسام البدري:74,أحمد عبد الرؤوف:72,عماد النحاس:72'},
+oth:{GK:'بونو:84,ميندي:80',DF:'ثيو هيرنانديز:84,كوليبالي:83,لابورت:82,جوردي ألبا:82',MF:'ماهريز:85,سافيتش:83,روبن نيفيز:82,بروزوفيتش:80',FW:'ميسي:92,رونالدو:89,بنزيمة:85,سون:85',CO:'إنزاغي:88,بيولي:84,جايسل:82,ماسكيرانو:80'},
+leg:{GK:'ياشين:94,بوفون:92,كاسياس:91,كان:91',DF:'بيكنباور:94,مالديني:92,كانافارو:90,روبرتو كارلوس:90,كافو:89',MF:'زيدان:96,إنييستا:92,تشافي:91,بيرلو:90,جيرارد:90,أبو تريكة:86',FW:'بيليه:97,مارادونا:96,رونالدو الظاهرة:94,رونالدينيو:93,هنري:92,حسام حسن:82',CO:'فيرجسون:97,فينجر:93,ساكي:92,كابيلو:91,ليبي:91,حسن شحاتة:82'}};
+const LG={all:'🎲 عشوائي (كل اللاعيبة)',big5:'⭐ الدوريات الخمسة الكبرى',eng:'الدوري الإنجليزي',esp:'الدوري الإسباني',ita:'الدوري الإيطالي',ger:'الدوري الألماني',fra:'الدوري الفرنسي',egy:'الدوري المصري',oth:'نجوم السعودي والأمريكي',leg:'🏆 الأساطير (معتزلين)'};
+const SL={eng:'إنجليزي',esp:'إسباني',ita:'إيطالي',ger:'ألماني',fra:'فرنسي',egy:'مصري',oth:'سعودي/أمريكي',leg:'أسطورة'};
+const parse=s=>s.split(',').map(x=>x.split(':')).map(a=>[a[0],+a[1]]);
+function build(lg){const ks=lg==='all'?Object.keys(D):lg==='big5'?['eng','esp','ita','ger','fra']:[lg],o={GK:[],DF:[],MF:[],FW:[],CO:[]};ks.forEach(k=>{for(const p in o)o[p].push(...parse(D[k][p]).map(a=>({n:a[0],r:a[1],pos:p,lg:k})))});return o}
+const val=r=>5+Math.pow((r-G.lo)/(G.hi-G.lo||1),2)*30;
+const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const tot=t=>t.reduce((a,p)=>a+p.r,0),av=a=>tot(a)/a.length;
+const $=document.getElementById('app');
+let G={phase:'start'},tm;
+
+const nm=k=>G.mode==='pvp'?(k==='me'?'اللاعب 1':'اللاعب 2'):(k==='me'?'إنت':'الكمبيوتر');
+const tn=k=>G.mode==='pvp'?'لفريق '+nm(k):(k==='me'?'لفريقك':'للكمبيوتر');
+function newGame(mode,lg){
+  clearInterval(tm);
+  const ty=G.type,b=build(lg),pool={},all=[];if(ty==='packs'||ty==='luck'){const al=build('all'),need=ty==='luck'?{GK:4,DF:10,MF:8,FW:8,CO:2}:{};if(ty==='packs')SLOTS.forEach(p=>need[p]=(need[p]||0)+8);for(const p in b){const ns=new Set(b[p].map(x=>x.n));sh(al[p]).forEach(x=>{if(b[p].length<need[p]&&!ns.has(x.n)){b[p].push(x);ns.add(x.n)}})}}for(const k in b){pool[k]=sh(b[k]);all.push(...b[k].map(p=>p.r))}
+  G={phase:'bid',type:ty,mode,lg,lo:Math.min(...all),hi:Math.max(...all),pool,round:0,me:{m:START,t:[],c:[],got:0},cpu:{m:START,t:[],c:[],got:0}};ty==='packs'?(plan(),pkRound()):ty==='luck'?lkStart(b):startRound();
+}
+function startRound(){
+  G.round++;G.item=G.pool[SLOTS[G.round-1]].pop();G.leader=null;G.bid=0;G.wait=false;G.phase='bid';
+  const left=ROUNDS-G.round+1;
+  G.max=Math.floor(Math.min(G.cpu.m-(left-1)*6,val(G.item.r)*(.7+Math.random()*.7)));
+  G.turn=G.mode==='pvp'&&G.round%2===0?'cpu':'me';G.msg=G.mode==='pvp'?'المزاد فتح!':'المزاد فتح، ابدأ إنت!';
+  if(G.mode!=='pvp'&&G.round%2===0&&G.max>=BASE){G.leader='cpu';G.bid=BASE;G.msg='الكمبيوتر فتح المزاد بسعر '+BASE+' مليون'}
+  draw();
+}
+function bidMe(b){
+  const s=G.turn;if(G.wait||b>G[s].m||b<=G.bid||b<BASE)return;
+  G.bid=b;G.leader=s;G.msg=(G.mode==='pvp'?nm(s)+' عرض ':'إنت عرضت ')+b+' مليون';
+  if(G.mode==='pvp'){G.turn=s==='me'?'cpu':'me';draw();return}
+  G.wait=true;draw();
+  setTimeout(cpuTurn,900);
+}
+function cpuTurn(){
+  if(G.bid+1<=G.max){
+    const b=Math.min(G.max,G.bid+1+(Math.random()*5|0));
+    G.bid=b;G.leader='cpu';G.wait=false;G.msg='الكمبيوتر رفع لـ '+b+' مليون';draw();
+  }else finish('me');
+}
+function fold(){if(!G.wait)finish(G.turn==='me'?'cpu':'me')}
+function finish(w){
+  const l=w==='me'?'cpu':'me',p=Math.min(G.leader?G.bid:BASE,G[w].m),gift=G.pool[G.item.pos].pop();
+  G[w].m-=p;G[w].t.push({...G.item,p});G[l].t.push({...gift,g:1});
+  G.res={w,p,gift};G.phase='reveal';draw();
+}
+
+/* المباراة */
+const EM={goal:'⚽',save:'🧤',block:'🛡️',miss:'😮‍💨',chance:'🔥',post:'🥅',yellow:'🟨',red:'🟥',var:'📺',pen:'🎯',corner:'🚩',offside:'🚫',foul:'⚠️',sub:'🔄',inj:'🚑',sys:'⏱️'};
+const FAST=['corner','offside','foul','sub','inj','block','miss'];
+const HOW=['برأسية رائعة','بتسديدة صاروخية من خارج المنطقة','بعد مراوغة الحارس','بلمسة ذكية من داخل المنطقة','بتسديدة زاحفة في الزاوية','بتسديدة مباشرة على الطاير'];
+const CH=[n=>`${n} ينطلق في هجمة خطيرة…`,n=>`${n} يراوغ مدافعًا ويدخل المنطقة…`,n=>`كرة عرضية خطيرة وجاية لـ${n}…`,n=>`هجمة مرتدة سريعة بقيادة ${n}…`,n=>`${n} يستلم الكرة على حدود المنطقة…`];
+const pick=a=>a[Math.random()*a.length|0];
+function motm(L,w,mh){
+  const all=[...G.me.t.map(p=>({...p,side:'me'})),...G.cpu.t.map(p=>({...p,side:'cpu'}))].filter(p=>p.pos!=='CO'),W={goal:3,save:1.6,block:1,chance:.3,post:.2,miss:-.2,yellow:-.6,red:-3},sc={};
+  const add=(n,v)=>{if(n)sc[n]=(sc[n]||0)+v};
+  L.forEach(l=>{if(l.k==='goal'&&l.v)return;add(l.p,W[l.k]||0);add(l.a,1.5)});
+  const f=all.find(p=>p.n===mh);if(f)return f;
+  return all.map(p=>({...p,x:(sc[p.n]||0)+p.r/50+(p.side===w?1:0)})).sort((a,b)=>b.x-a.x)[0];
+}
+function wrap(raw,hint,mh){
+  const mo=[];
+  raw.forEach(e=>{const q=mo[mo.length-1];if(q&&e.m-q.l<=1){q.e.push(e);q.l=e.m}else mo.push({l:e.m,e:[e]})});
+  const N=mo.length,ev=[{m:0,k:'sys',t:'صافرة البداية، المباراة ابتدت!'},...(G.pre||[]).map(t=>({m:0,k:'sys',t}))];let last=1,ht=0;
+  mo.forEach((q,j)=>{
+    let m=Math.max(Math.round((j+.1+Math.random()*.8)/N*86)+2,last+1);
+    if(!ht&&m>45){ev.push({m:Math.max(45,last),k:'sys',t:'نهاية الشوط الأول'});ht=1;m=Math.max(m,46)}
+    q.e.forEach((e,i)=>ev.push({...e,m:Math.min(90,m+i)}));
+    last=m+q.e.length-1;
+  });
+  if(!ht)ev.push({m:Math.max(45,last),k:'sys',t:'نهاية الشوط الأول'});
+  ev.push({m:90,k:'sys',t:'صافرة النهاية!'});
+  const sc={...(G.init||{me:0,cpu:0})},lines=[];
+  ev.forEach(e=>{
+    const l={m:e.m,t:e.t,k:e.k||'chance',p:e.p,a:e.a,g:e.g};
+    if(e.g)sc[e.g]++;
+    if(e.x){sc[e.x]=Math.max(0,sc[e.x]-1);const q=[...lines].reverse().find(z=>z.k==='goal'&&z.g===e.x&&!z.v);if(q)q.v=1}
+    l.s={...sc};lines.push(l);
+  });
+  let w=sc.me>sc.cpu?'me':sc.cpu>sc.me?'cpu':null,pen=0;
+  if(!w){pen=1;const a=Math.pow(tot(G.me.t),8),b=Math.pow(tot(G.cpu.t),8);w=hint==='me'||hint==='cpu'?hint:Math.random()<a/(a+b)?'me':'cpu'}
+  return{lines,w,pen,mv:motm(lines,w,mh)};
+}
+function local(){
+  const L=t=>({gk:t.find(p=>p.pos==='GK'),df:t.filter(p=>p.pos==='DF'),mf:t.filter(p=>p.pos==='MF'),fw:t.filter(p=>p.pos==='FW'),co:t.find(p=>p.pos==='CO')});
+  const T={me:L(G.me.t),cpu:L(G.cpu.t)},S={},raw=[],off=new Set,slots=[];
+  for(const k in T){const x=T[k],f=1+((x.co?x.co.r:85)-85)/500;S[k]={m:av(x.mf)*f,a:(av(x.fw)*.55+av(x.mf)*.45)*f,d:(av(x.df)*.5+x.gk.r*.5)*f}}
+  const add=(c,n)=>{for(let i=0;i<n;i++)slots.push({m:2+Math.random()*87|0,c})};
+  add(0,11);add(1,3+(Math.random()<.5));add(2,3);
+  slots.sort((a,b)=>a.m-b.m);
+  slots.forEach(({m,c})=>{
+    const k=pick(['me','cpu']),pl=pick([...T[k].df,...T[k].mf,...T[k].fw]);
+    if(c===1){
+      if(Math.random()<.15&&!off.has(k)){off.add(k);S[k].a*=.93;S[k].m*=.96;S[k].d*=.97;raw.push({m,k:'red',p:pl.n,t:`${pl.n} يتلقى بطاقة حمراء ويسيب فريقه بـ10 لاعيبة!`})}
+      else raw.push({m,k:'yellow',p:pl.n,t:`${pl.n} يتعرض للإنذار بعد تدخل عنيف`});
+      return;
+    }
+    if(c===2){
+      const r=Math.random(),co=T[k].co?T[k].co.n:'الفريق';
+      raw.push(r<.4?{m,k:'sub',p:pl.n,t:`تبديل ${tn(k)}: ${pl.n} يغادر الملعب وسط تصفيق الجمهور`}:r<.7?{m,k:'inj',p:pl.n,t:`${pl.n} يتلقى العلاج على أرض الملعب بعد احتكاك قوي`}:{m,k:'sub',t:`المدرب ${co} يغيّر خطة اللعب ويدفع بمهاجم إضافي`});
+      return;
+    }
+    const pm=Math.pow(S.me.m,8),pc=Math.pow(S.cpu.m,8),at=Math.random()<pm/(pm+pc)?'me':'cpu',dn=at==='me'?'cpu':'me';
+    const A=T[at],D=T[dn],x=Math.random()<.7?pick(A.fw):pick(A.mf),ast=pick([...A.mf,...A.df].filter(p=>p!==x));
+    const pg=Math.min(.6,Math.max(.03,.17*Math.pow(S[at].a/S[dn].d,8))),dg=pick(D.df),gk=D.gk.n;
+    if(Math.random()<.55)raw.push({m,k:'chance',p:x.n,t:pick(CH)(x.n)});
+    if(Math.random()<pg){
+      const a=Math.random()<.6?ast:null;
+      raw.push({m,k:'goal',g:at,p:x.n,a:a&&a.n,t:`جووول! ${x.n} يسجل ${pick(HOW)} ${tn(at)}${a?' بتمريرة من '+a.n:''}`});
+      if(Math.random()<.25){
+        raw.push({m,k:'var',t:'الفار بيراجع اللقطة…'});
+        if(Math.random()<.5)raw.push({m,k:'var',t:'الفار يؤكد الهدف، الهدف صحيح ✅'});
+        else raw.push({m,k:'var',x:at,t:'الفار يلغي الهدف بداعي التسلل! ❌'});
+      }
+    }else if(Math.random()<.1){
+      raw.push({m,k:'var',t:'الفار بيراجع لمسة يد داخل المنطقة…'});
+      raw.push({m,k:'pen',t:`ضربة جزاء ${tn(at)}!`});
+      if(Math.random()<.75)raw.push({m,k:'goal',g:at,p:x.n,t:`جووول! ${x.n} يسجل من ركلة الجزاء ${tn(at)}`});
+      else raw.push({m,k:'save',p:gk,t:`${gk} يتصدى لركلة الجزاء ببراعة!`});
+    }else{
+      const q=Math.random();
+      raw.push(
+        q<.2?{m,k:'save',p:gk,t:pick([`${gk} يتصدى لتسديدة ${x.n}`,`${gk} يمنع هدفًا محققًا من ${x.n}!`,`${gk} يطير ويبعد كرة ${x.n} لركنية`])}:
+        q<.32?{m,k:'block',p:dg.n,t:`${dg.n} يشتتها من أمام المرمى`}:
+        q<.47?{m,k:'miss',p:x.n,t:pick([`${x.n} يسدد فوق العارضة`,`${x.n} يسدد بعيدًا عن المرمى`,`كرة ${x.n} ضعيفة بين يدي الحارس`])}:
+        q<.55?{m,k:'post',p:x.n,t:`${x.n} يضرب ${pick(['العارضة','القائم'])}! كانت قريبة جدًا`}:
+        q<.7?{m,k:'corner',t:`ركنية ${tn(at)} والكرة تتحول لخطر على المرمى`}:
+        q<.85?{m,k:'foul',p:dg.n,t:`خطأ من ${dg.n} على ${x.n} وركلة حرة في مكان خطير`}:
+        {m,k:'offside',p:x.n,t:`${x.n} في موقف تسلل والراية مرفوعة`});
+    }
+  });
+  return wrap(raw,null,null);
+}
+async function ai(){
+  if(typeof claude==='undefined')return null;
+  const s=await claude.use('sample');if(!s)return null;
+  const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),55000);
+  const L=t=>[...t].sort((a,b)=>ORD[a.pos]-ORD[b.pos]).map(p=>p.pos+' '+p.n+':'+p.r).join(' | ');
+  const K=['goal','save','block','miss','chance','post','yellow','red','var','pen','corner','offside','foul','sub','inj'];
+  try{
+    const r=await s.json(`Simulate an exciting 90-minute football match between two lineups (position name:rating; CO is the coach, a better coach gives a small edge). Team "me": ${L(G.me.t)}. Team "cpu": ${L(G.cpu.t)}. Higher ratings should win more often, but upsets can happen.${G.init&&(G.init.me||G.init.cpu)?' The match starts '+G.init.me+'-'+G.init.cpu+' (me-cpu).':''} Return ONLY JSON: {"events":[{"m":minute 1-90,"k":"goal|save|block|miss|chance|post|yellow|red|var|pen|corner|offside|foul|sub|inj","t":"one short punchy Egyptian Arabic commentary line naming players, no emojis","p":"main player name","g":"me" or "cpu" only on a goal,"x":"me" or "cpu" only when VAR cancels that team's goal}],"w":"me" or "cpu","motm":"player name"}. Give 20 to 28 events with minutes spread randomly over the whole match (do not use round or repeated minutes). Mix many different event types: goals scored in different ways, saves, near misses, corners, free kicks, offsides, 2-4 yellow cards, maybe a red card, injuries, substitutions, a coach tactical change, and one or two VAR reviews (confirming or cancelling a goal, or awarding a penalty). Never say "your team"; use only the given names. "w" only matters if the score ends level (penalty winner).`,{modelTier:'quick',signal:ctl.signal,cache:false});
+    const ev=(r.events||[]).filter(e=>e&&e.t).slice(0,34).map(e=>{const g=e.g==='me'||e.g==='cpu'?e.g:null;return{m:Math.min(90,Math.max(1,+e.m||1)),t:String(e.t),k:g?'goal':K.includes(e.k)?e.k:'chance',p:e.p,g,x:e.x==='me'||e.x==='cpu'?e.x:null}}).sort((a,b)=>a.m-b.m);
+    return ev.length?wrap(ev,r.w,r.motm):null;
+  }catch(e){return null}finally{clearTimeout(to)}
+}
+async function startMatch(){
+  const g=G;G.phase='match';G.sim=null;draw();
+  const s=(await ai())||local();
+  if(G!==g)return;
+  s.i=0;G.sim=s;draw();
+  const step=()=>{if(G.sim!==s)return;s.i++;draw();if(s.i<s.lines.length){const k=s.lines[s.i-1].k;tm=setTimeout(step,k==='goal'?3400:k==='var'||k==='red'||k==='pen'?2700:FAST.includes(k)?1800:2200)}};
+  tm=setTimeout(step,1200);
+}
+
+/* الباكات */
+const CD={s:['🕵️','كرت السرقة','بعد ما التشكيلة تخلص بتسرق لاعب من الخصم'],h:['🛡️','كرت الحماية','بيصدّ السرقة لو فعّلته بعد التشكيلة'],x:['🔮','كرت الكشف','يكشف الباكات بتاعتك قبل ما تفتح'],b:['⭐','كرت التعزيز','+5 تقييم لأي لاعب بعد التشكيلة']};
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function plan(){
+  const sl=[];for(let r=1;r<=ROUNDS;r++)sl.push(r+',me',r+',cpu');
+  const s=sh(sl);G.plan={};G.plan[s[0]]='s';G.plan[s[1]]=pick(['h','x','b']);
+}
+function pkRound(){
+  const pos=SLOTS[G.round];G.round++;
+  const first=G.round%2?'me':'cpu',second=first==='me'?'cpu':'me',mk=()=>G.pool[pos].splice(0,4).map(p=>({p,c:null,s:'h'}));
+  const sets={};sets[first]=mk();sets[second]=mk();
+  G.R={pos,sets,packs:sets[first],first,turn:first,op:null,sw:0,swFrom:null,xr:{},take:{},card:{me:G.plan[G.round+',me']||null,cpu:G.plan[G.round+',cpu']||null},msg:nm(first)+': دي ٤ باكات ليك، افتح واحدة'};
+  G.phase='pk';draw();bot();
+}
+function reveal(k){const R=G.R,t=R.turn;k.s='r';if(R.card[t]&&!k.c){k.c=R.card[t];R.card[t]=null}}
+function take(t,i){
+  const R=G.R,k=R.packs[i],p={...k.p};
+  k.s='t';k.by=t;G[t].t.push(p);R.take[t]=p;
+  let msg=nm(t)+' خد '+p.n;
+  if(k.c){G[t].c.push(k.c);msg+=' ومعاه '+CD[k.c][0]+' '+CD[k.c][1]+'!';k.c=null}
+  R.msg=msg;R.op=null;R.sw=0;R.swFrom=null;
+  if(t===R.first){R.turn=t==='me'?'cpu':'me';R.packs=R.sets[R.turn];R.msg+=' | دور '+nm(R.turn)+': ٤ باكات جديدة';draw();bot()}
+  else{R.turn=null;G.phase='pkend';draw()}
+}
+function pick1(i){
+  const R=G.R,t=R.turn,k=R.packs[i];
+  if(!t||(G.mode==='cpu'&&t==='cpu')||k.s==='t'||i===R.swFrom||R.op!==null)return;
+  reveal(k);
+  if(R.sw){take(t,i);return}
+  R.op=i;R.msg=nm(t)+' فتح الباكة '+(i+1)+': تاخده ولا تغيّر؟';draw();
+}
+function keep(){const R=G.R,t=R.turn;if(!t||(G.mode==='cpu'&&t==='cpu')||R.op===null)return;take(t,R.op)}
+function swap(){const R=G.R,t=R.turn;if(!t||(G.mode==='cpu'&&t==='cpu')||R.op===null)return;R.sw=1;R.swFrom=R.op;R.op=null;R.msg='غيّرت الباكة، اختار واحدة تانية من الباقيين وهتاخدها غصب';draw()}
+function useX(t){
+  const R=G.R,h=G[t].c,ix=h.indexOf('x');
+  if(ix<0||G.phase!=='pk'||R.turn!==t||R.op!==null||R.sw||R.xr[t])return;
+  h.splice(ix,1);R.xr[t]=1;
+  if(R.card[t]){const hd=R.packs.filter(k=>k.s==='h');if(hd.length){pick(hd).c=R.card[t];R.card[t]=null}}
+  R.msg=nm(t)+' استخدم كرت الكشف 🔮';draw();
+}
+async function bot(){
+  const g=G,R=G.R;if(G.mode==='pvp'||R.turn!=='cpu')return;
+  await wait(1100);if(G!==g||G.R!==R)return;
+  const thr=av([...G.pool[R.pos],...R.packs.map(k=>k.p)]);
+  const av0=()=>R.packs.map((k,i)=>({k,i})).filter(o=>o.k.s!=='t'&&o.i!==R.swFrom);
+  let i=pick(av0()).i;
+  reveal(R.packs[i]);R.op=i;R.msg='الكمبيوتر فتح الباكة '+(i+1)+' وطلع '+R.packs[i].p.n+(R.packs[i].c?' ومعاه '+CD[R.packs[i].c][0]:'');draw();
+  await wait(1700);if(G!==g||G.R!==R)return;
+  if(R.packs[i].p.r<thr&&!R.packs[i].c){R.sw=1;R.swFrom=i;R.op=null;R.msg='الكمبيوتر مش عاجبه ومغيّر الباكة!';draw();await wait(1500);if(G!==g||G.R!==R)return;i=pick(av0()).i;reveal(R.packs[i])}
+  take('cpu',i);
+}
+function pkDraw(){
+  const R=G.R,t=R.turn,end=G.phase==='pkend',pvp=G.mode==='pvp',own=!end&&t&&(pvp||t==='me');
+  const cd=k=>G[k].c.map(c=>CD[c][0]).join(' ')||'—';
+  const hdr=`<div class="bar"><div class="${t==='me'?'on':''}"><small>كروت ${nm('me')}</small><b>${cd('me')}</b></div><div><small>الجولة</small><b>${G.round}/${ROUNDS}</b></div><div class="${t==='cpu'?'on':''}"><small>كروت ${nm('cpu')}</small><b>${cd('cpu')}</b></div></div>`;
+  const tile=(k,i)=>{
+    const px=R.xr[t]&&k.s==='h';
+    const inner=k.s==='t'?`✅ ${k.p.n}`:k.s==='r'?`<b class="r">${k.p.r}</b><span>${k.p.n}</span>${k.c?`<small>${CD[k.c][0]} مع اللاعب</small>`:''}`:px?`<span>${k.p.n}</span><small>${k.p.r}${k.c?' '+CD[k.c][0]:''}</small>`:`<span class="big">📦</span>`;
+    const dis=k.s==='t'||R.op!==null||i===R.swFrom||!t||(!pvp&&t==='cpu');
+    return `<button class="pk${k.s==='t'?' tk':k.s==='r'?' op':''}" data-a="pk" data-i="${i}" ${dis?'disabled':''}><small>باكة ${i+1}</small>${inner}</button>`;
+  };
+  const sides=pvp?['me','cpu']:['me'];
+  const lg=sides.map(k=>G[k].c.map(c=>`<p class="tick">${CD[c][0]} ${CD[c][1]} (${nm(k)}): ${CD[c][2]}</p>`).join('')).join('');
+  let body;
+  if(end){
+    const pl=k=>`<p>${nm(k)}: <b>${R.take[k].n}</b> (${R.take[k].r})</p>`;
+    body=`<h2>📦 ${PN[R.pos]}: النتيجة</h2>${pl('me')}${pl('cpu')}<button class="go" data-a="pknext">${G.round>=ROUNDS?'خلّص التشكيلة':'الجولة الجاية'}</button>`;
+  }else{
+    let act='';
+    if(own&&R.op!==null)act=`<button class="go" data-a="keep">✅ أخده</button><button data-a="swap" style="width:100%;margin-top:8px">🔄 غيّر الباكة (هتاخد التانية غصب)</button>`;
+    else if(own&&!R.sw&&!R.xr[t]&&G[t].c.includes('x'))act=`<button data-a="card" data-t="${t}" data-c="x" style="width:100%">🔮 استخدم كرت الكشف</button>`;
+    body=`<h2>📦 ${PN[R.pos]}</h2><p class="msg">${R.msg}</p><div class="pks">${R.packs.map(tile).join('')}</div>${act}`;
+  }
+  $.innerHTML=hdr+`<div class="card c">${body}</div>`+lg+teams();
+}
+/* مرحلة الكروت بعد التشكيلة */
+function finalStart(){
+  const hs=k=>G[k].c.includes('h');
+  G.phase='pkfinal';
+  const F=G.F={st:0,sh:{me:0,cpu:0},dec:{me:!hs('me'),cpu:!hs('cpu')},sel:null,log:[]};
+  if(G.mode==='cpu'&&hs('cpu')){G.cpu.c.splice(G.cpu.c.indexOf('h'),1);F.sh.cpu=1;F.dec.cpu=true;F.log.push('🛡️ الكمبيوتر فعّل كرت الحماية!')}
+  fcheck();draw();
+}
+function fcheck(){const F=G.F;if(F.st===0&&F.dec.me&&F.dec.cpu){F.st=1;cpuFinal()}}
+function fsh(t,v){const F=G.F;if(F.dec[t])return;if(v){const c=G[t].c;c.splice(c.indexOf('h'),1);F.sh[t]=1;F.log.push('🛡️ '+nm(t)+' فعّل كرت الحماية!')}F.dec[t]=true;fcheck();draw()}
+function doSteal(t,j){
+  const F=G.F,o=t==='me'?'cpu':'me',x=G[o].t[j],c=G[t].c;c.splice(c.indexOf('s'),1);
+  if(F.sh[o]){F.sh[o]=0;F.log.push(`🕵️ ${nm(t)} حاول يسرق ${x.n} بس 🛡️ كرت الحماية صدّه!`);return}
+  const own=G[t].t.filter(y=>y.pos===x.pos).sort((a,b)=>a.r-b.r)[0],i=G[t].t.indexOf(own);
+  G[t].t[i]=x;G[o].t[j]=own;F.log.push(`🕵️ ${nm(t)} سرق ${x.n} (${x.r}) من ${nm(o)} وادّاله ${own.n}`);
+}
+function doBoost(t,j){const c=G[t].c,p=G[t].t[j];c.splice(c.indexOf('b'),1);p.r+=5;p.bst=1;G.F.log.push(`⭐ ${nm(t)} عزّز ${p.n} بـ+5`)}
+function cpuFinal(){
+  if(G.mode!=='cpu')return;const c=G.cpu.c;
+  if(c.includes('s')){
+    let bj=-1,bd=0;
+    G.me.t.forEach((x,j)=>{const own=G.cpu.t.filter(y=>y.pos===x.pos).sort((a,b)=>a.r-b.r)[0],d=x.r-own.r;if(d>bd){bd=d;bj=j}});
+    if(bj>=0)doSteal('cpu',bj);
+  }
+  if(c.includes('b')){let j=0;G.cpu.t.forEach((p,k)=>{if(p.r<G.cpu.t[j].r)j=k});doBoost('cpu',j)}
+}
+function ftarget(j){const F=G.F,s=F.sel;if(!s)return;F.sel=null;if(s.c==='s')doSteal(s.t,j);else doBoost(s.t,j);draw()}
+function fDraw(){
+  const F=G.F,pvp=G.mode==='pvp',sides=pvp?['me','cpu']:['me'];
+  const log=F.log.map(x=>`<p class="msg">${x}</p>`).join('');
+  let body='';
+  if(F.st===0){
+    body=`<p>🛡️ اللي معاه كرت حماية يقرر يفعّله ولا لأ، قبل ما حد يسرق.</p>`+sides.filter(k=>G[k].c.includes('h')&&!F.dec[k]).map(k=>`<div class="btns"><button data-a="fsh" data-t="${k}" data-v="1">🛡️ فعّل الحماية (${nm(k)})</button><button data-a="fsh" data-t="${k}" data-v="0">مش هفعّل</button></div>`).join('');
+  }else if(F.sel){
+    const {t,c}=F.sel,tg=c==='s'?(t==='me'?'cpu':'me'):t;
+    body=`<p>${c==='s'?'اختار اللاعب اللي هتسرقه من '+nm(tg):'اختار اللاعب اللي هتعززه +5'}</p><div class="btns">${G[tg].t.map((p,j)=>`<button data-a="ftarget" data-j="${j}">${p.r} ${p.n}<small> ${SN[p.pos]}</small></button>`).join('')}</div><button data-a="fcancel" style="width:100%;margin-top:8px">إلغاء</button>`;
+  }else{
+    const bt=sides.map(k=>G[k].c.filter(c=>c==='s'||c==='b').map(c=>`<button data-a="fcard" data-t="${k}" data-c="${c}">${CD[c][0]} ${CD[c][1]}${pvp?' ('+nm(k)+')':''}</button>`).join('')).join('');
+    body=bt?`<div class="btns">${bt}</div>`:'<p>مفيش كروت متاحة دلوقتي.</p>';
+    body+=`<button class="go" data-a="fgo">ابدأ المباراة</button>`;
+  }
+  $.innerHTML=`<div class="card c"><h2>🃏 بعد التشكيلة</h2><p>التشكيلتين خلصوا. وقت كروت السرقة والحماية والتعزيز.</p>${log}${body}</div>`+teams();
+}
+
+/* إنت وحظك */
+const POSN=['GK','DF','MF','FW'],NEED={GK:1,DF:4,MF:3,FW:3},TWX={g:['inj','lead','pump','star'],b:['inj','susp','trail','tire']};
+const face=p=>{const h=[...p.n].reduce((a,c)=>a+c.charCodeAt(0),0)%360;return `<svg viewBox="0 0 64 64" width="72" height="72" aria-hidden="true"><circle cx="32" cy="22" r="11" fill="hsl(${h},35%,72%)"/><path d="M8 62c0-16 10-24 24-24s24 8 24 24z" fill="hsl(${(h+140)%360},55%,45%)"/></svg>`};
+function wpick(arr,n,q){
+  const s=[...arr].sort((a,b)=>a.r-b.r),m=s.length-1||1,res=[],cand=s.map((p,i)=>({p,w:Math.exp(-Math.pow(i/m-q,2)/.08)}));
+  while(res.length<n&&cand.length){let t=cand.reduce((a,c)=>a+c.w,0)*Math.random(),j=0;for(;j<cand.length-1;j++){t-=cand[j].w;if(t<=0)break}res.push(cand.splice(j,1)[0].p)}
+  return res;
+}
+function mkPack(b,q){const pl=[];for(const p of POSN)pl.push(...wpick(b[p],NEED[p],q).map(x=>({...x})));return{pl,avg:av(pl)}}
+const SETS=s=>new Set(s.split(',')),AR=n=>String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
+const TG={
+BD:SETS('ميسي,رونالدو,بنزيمة,رودري,ديمبيلي,زيدان,رونالدو الظاهرة,رونالدينيو,كانافارو,بيكنباور,ياشين'),
+WC:SETS('ميسي,مبابي,ديمبيلي,لاوتارو,نوير,بيليه,مارادونا,رونالدو الظاهرة,رونالدينيو,روبرتو كارلوس,كافو,زيدان,هنري,بيرلو,كانافارو,بوفون,إنييستا,تشافي,كاسياس,بيكنباور'),
+CL:SETS('أليسون,دوناروما,فان دايك,روبن دياز,ريس جيمس,رودري,هالاند,محمد صلاح,كورتوا,تير شتيجن,روديجر,أرنولد,ميليتاو,بيلينجهام,فالفيردي,تشواميني,فينيسيوس,ليفاندوفسكي,ميسي,رونالدو,بنزيمة,دي بروين,نوير,ديفيز,كيميتش,غوريتسكا,حكيمي,ماركينيوس,باتشو,نونو مينديش,فيتينيا,روييز,جواو نيفيس,زائير-إيمري,ديمبيلي,كفاراتسخيليا,دوي,باركولا,ميندي,لابورت,جوردي ألبا,ماهريز,كاسياس,كان,بيكنباور,مالديني,روبرتو كارلوس,كافو,زيدان,إنييستا,تشافي,بيرلو,جيرارد,رونالدينيو,هنري'),
+AF:SETS('ماهريز,كوليبالي,ميندي,أبو تريكة,حسام حسن')};
+const isEg=p=>(p.lg==='egy'&&p.n!=='مايلي'&&p.n!=='وسام أبو علي')||['محمد صلاح','أبو تريكة','حسام حسن'].includes(p.n);
+const LGN={eng:'الإنجليزي',esp:'الإسباني',ita:'الإيطالي',ger:'الألماني',fra:'الفرنسي',egy:'المصري',oth:'السعودي والأمريكي'};
+function hints(pl){
+  const c=f=>pl.filter(f).length,H=[];
+  const add=(cat,n,zero,one,two,many,min)=>{if(n===0){if(zero)H.push({c:cat,z:1,t:zero})}else if(!min||n>=min)H.push({c:cat,t:n===1?one:n===2?two:many.replace('#',AR(n))})};
+  const ret=c(p=>p.lg==='leg');
+  if(ret>=4)H.push({c:'ret',t:'فيها أكتر من ٣ لاعيبة معتزلين'});else add('ret',ret,'مفيهاش ولا لاعب معتزل','فيها لاعب معتزل واحد','فيها لاعبين معتزلين','فيها # لاعيبة معتزلين');
+  add('wc',c(p=>TG.WC.has(p.n)),'مفيهاش حد كسب كأس العالم','فيها لاعب واحد كسب كأس العالم','فيها لاعبين كسبوا كأس العالم','فيها # لاعيبة كسبوا كأس العالم');
+  add('cl',c(p=>TG.CL.has(p.n)),'مفيهاش حد كسب دوري أبطال أوروبا','فيها لاعب واحد كسب دوري أبطال أوروبا','فيها لاعبين كسبوا دوري أبطال أوروبا','فيها # لاعيبة كسبوا دوري أبطال أوروبا');
+  add('bd',c(p=>TG.BD.has(p.n)),'مفيهاش حد فاز بالكرة الذهبية','فيها لاعب واحد فاز بالكرة الذهبية','فيها لاعبين فازوا بالكرة الذهبية','فيها # لاعيبة فازوا بالكرة الذهبية');
+  add('af',c(p=>TG.AF.has(p.n)),'','فيها لاعب واحد كسب كأس أمم أفريقيا','فيها لاعبين كسبوا كأس أمم أفريقيا','فيها # لاعيبة كسبوا كأس أمم أفريقيا',1);
+  add('eg',c(isEg),'','فيها لاعب مصري واحد','فيها لاعبين مصريين','فيها # لاعيبة مصريين',1);
+  add('r90',c(p=>p.r>=90),'مفيهاش حد تقييمه ٩٠ أو أكتر','فيها لاعب واحد تقييمه ٩٠ أو أكتر','فيها لاعبين تقييمهم ٩٠ أو أكتر','فيها # لاعيبة تقييمهم ٩٠ أو أكتر');
+  const by={};pl.forEach(p=>{if(p.lg!=='leg')by[p.lg]=(by[p.lg]||0)+1});
+  const top=Object.entries(by).sort((a,b)=>b[1]-a[1])[0];
+  if(top&&top[1]>=4)H.push({c:'lg',t:`فيها ${AR(top[1])} لاعيبة من الدوري ${LGN[top[0]]}`});
+  const lo=Math.floor(av(pl)/5)*5;H.push({c:'avg',t:`متوسط تقييم اللاعيبة بين ${AR(lo)} و${AR(lo+5)}`});
+  const out=[];let z=0;
+  for(const h of sh(H)){if(out.length>=3)break;if(h.c==='avg'&&Math.random()<.6)continue;if((h.z&&z>=1)||out.some(o=>o.c===h.c))continue;out.push(h);if(h.z)z++}
+  for(const h of H){if(out.length>=3)break;if(!out.includes(h)&&!out.some(o=>o.c===h.c))out.push(h)}
+  return out.map(h=>h.t);
+}
+function mkSet(b){
+  let ps;
+  for(let n=0;n<40;n++){ps=[.3,.6,.88].map(q=>mkPack(b,q));if(ps[0].avg<ps[1].avg&&ps[1].avg<ps[2].avg)break}
+  let vs;do{vs=sh(['g','g','g','b','b','b']).slice(0,3)}while(new Set(vs).size<2);
+  return sh(ps).map((p,i)=>{const s=[...p.pl].sort((a,b)=>b.r-a.r),v=vs[i];return{...p,v,k:pick(TWX[v]),cover:s[0],ex:sh(s.slice(1)).slice(0,3),hn:hints(p.pl)}});
+}
+function lkStart(b){
+  G.L={sets:{me:mkSet(b),cpu:mkSet(b)},q:{me:2,cpu:2},seen:{me:[],cpu:[]},turn:'me',took:{},msg:nm('me')+': اختار باكة، وتقدر تستفسر عن باكتين بس'};
+  G.phase='lk';draw();
+}
+function lkAsk(i){
+  const L=G.L,t=L.turn;
+  if(!t||(G.mode==='cpu'&&t==='cpu')||L.q[t]<1||L.seen[t].includes(i))return;
+  L.q[t]--;L.seen[t].push(i);L.msg=nm(t)+' استفسر عن باكة '+(i+1);draw();
+}
+function lkPick(i){const t=G.L.turn;if(!t||(G.mode==='cpu'&&t==='cpu'))return;lkTake(t,i)}
+function lkTake(t,i){
+  const L=G.L;G[t].t=L.sets[t][i].pl.map(x=>({...x}));L.took[t]=i;
+  if(t==='me'){L.turn='cpu';L.msg=nm('me')+' اختار باكة '+(i+1)+' | دور '+nm('cpu');draw();lkBot()}
+  else lkFinish()
+}
+async function lkBot(){
+  const g=G,L=G.L;if(G.mode==='pvp'||L.turn!=='cpu')return;
+  await wait(1200);if(G!==g)return;
+  const ps=L.sets.cpu,hint=p=>p.cover.r+av(p.ex),ord=ps.map((p,i)=>i).sort((a,b)=>hint(ps[b])-hint(ps[a])).slice(0,2);
+  L.seen.cpu=[...ord];L.q.cpu=0;L.msg='الكمبيوتر استفسر عن باكة '+(ord[0]+1)+' وباكة '+(ord[1]+1);draw();
+  await wait(2000);if(G!==g)return;
+  const sc=i=>hint(ps[i])+(L.seen.cpu.includes(i)?(ps[i].v==='g'?8:-8):0);
+  lkTake('cpu',[0,1,2].sort((a,b)=>sc(b)-sc(a))[0]);
+}
+function lkSub(s,p,dir,gap){
+  const T=G[s].t,nms=new Set(T.map(x=>x.n)),c=G.pool[p.pos].filter(x=>!nms.has(x.n)&&(dir>0?x.r>p.r:x.r<p.r));
+  const x=c.length?{...pick(c)}:{n:dir>0?'بديل نجم':'بديل ناشئ',r:Math.max(60,p.r+dir*gap),pos:p.pos,lg:p.lg};
+  T[T.indexOf(p)]=x;return x;
+}
+function lkTw(s){
+  const L=G.L,pk=L.sets[s][L.took[s]],T=G[s].t,o=s==='me'?'cpu':'me',out=T.filter(p=>p.pos!=='GK');
+  const say=t=>{L.log[s].push(t);G.pre.push(nm(s)+': '+t)};
+  if(pk.k==='inj'){const p=pick(out),x=lkSub(s,p,pk.v==='g'?1:-1,6);say(`🩹 ${p.n} اتصاب ونزل مكانه ${pk.v==='g'?'بديل أحلى':'بديل أوحش'}: ${x.n} (${x.r})`)}
+  else if(pk.k==='susp'){const p=[...out].sort((a,b)=>b.r-a.r)[0],x=lkSub(s,p,-1,8);say(`🟥 ${p.n} موقوف ومش هيلعب، نزل مكانه ${x.n} (${x.r})`)}
+  else if(pk.k==='star'){const p=pick(out);p.r+=6;p.bst=1;say(`🌟 ${p.n} في أحسن حالاته: +6 تقييم`)}
+  else if(pk.k==='pump'){T.forEach(p=>p.r+=2);say('📣 الجمهور ورا الفريق: +2 تقييم لكل لاعب')}
+  else if(pk.k==='tire'){T.forEach(p=>p.r-=2);say('🥵 إرهاق وسفر: -2 تقييم لكل لاعب')}
+  else if(pk.k==='lead'){G.init[s]++;say('🔥 نازل بمعنويات عالية ومتقدم 1-0 من البداية')}
+  else if(pk.k==='trail'){G.init[o]++;say('😬 نازل خسران 0-1 من البداية')}
+}
+function lkFinish(){
+  const L=G.L;L.turn=null;L.log={me:[],cpu:[]};G.init={me:0,cpu:0};G.pre=[];
+  ['me','cpu'].forEach(lkTw);G.phase='lkend';draw();
+}
+function lkDraw(){
+  const L=G.L,t=L.turn,end=G.phase==='lkend',pvp=G.mode==='pvp',own=!end&&t&&(pvp||t==='me');
+  if(end){
+    $.innerHTML=`<div class="card c"><h2>🍀 التشكيلتين جاهزين</h2>${['me','cpu'].map(k=>{const pk=L.sets[k][L.took[k]];return `<p><b>${nm(k)}</b>: باكة ${L.took[k]+1} · الحكم: <b class="${pk.v==='g'?'win':'lose'}">${pk.v==='g'?'حلو ✅':'وحش ❌'}</b> · متوسط ${Math.round(av(G[k].t))}</p>${L.log[k].map(x=>`<p class="msg">${x}</p>`).join('')}`}).join('')}<button class="go" data-a="match">ابدأ المباراة</button></div>`+teams();
+    return;
+  }
+  const sets=L.sets[t],seen=L.seen[t];
+  const card=(p,i)=>{
+    const open=seen.includes(i),canAsk=own&&L.q[t]>0&&!open;
+    const full=`<p class="vd2 ${open?p.v:''}">${open?(p.v==='g'?'✅ الحكم: حلو':'❌ الحكم: وحش'):'❓ الحكم لسه مخفي'}</p>`;
+    return `<div class="card c"><h3>باكة ${i+1}</h3><div class="cov">${face(p.cover)}<b class="r">${p.cover.r}</b><span>${p.cover.n}</span></div><p class="tick">تلميحات عن اللي جواها:</p><ul class="hn">${p.hn.map(h=>`<li>${h}</li>`).join('')}</ul>${full}<div class="btns"><button data-a="lkask" data-i="${i}" ${canAsk?'':'disabled'}>🔍 استفسر</button><button data-a="lkpick" data-i="${i}" ${own?'':'disabled'}>✅ اختار</button></div></div>`;
+  };
+  $.innerHTML=`<div class="bar"><div class="${t==='me'?'on':''}"><small>${nm('me')}</small><b>${G.me.t.length?'✅':'⏳'}</b></div><div><small>استفسارات ${nm(t)}</small><b>${L.q[t]}/2</b></div><div class="${t==='cpu'?'on':''}"><small>${nm('cpu')}</small><b>${G.cpu.t.length?'✅':'⏳'}</b></div></div><p class="msg" style="text-align:center">${L.msg}</p>`+sets.map(card).join('');
+}
+
+/* الشاشات */
+const chip=p=>`<span class="chip"><b>${p.r}</b><i>${SN[p.pos]}</i>${p.n}${p.g?' 🎁':''}${p.bst?' ⭐':''}${p.p?' · '+p.p+'م':''}</span>`;
+const side=t=>[...t].sort((a,b)=>ORD[a.pos]-ORD[b.pos]).map(chip).join('')||'—';
+const teams=()=>`<div class="teams"><div><small>${G.mode==='pvp'?'تشكيلة اللاعب 1':'تشكيلتك'}</small>${side(G.me.t)}</div><div><small>تشكيلة ${nm('cpu')}</small>${side(G.cpu.t)}</div></div>`;
+const bar=()=>`<div class="bar"><div class="${G.phase==='bid'&&G.mode==='pvp'&&G.turn==='me'?'on':''}"><small>${G.mode==='pvp'?'فلوس اللاعب 1':'فلوسك'}</small><b>${G.me.m}م</b></div><div><small>الجولة</small><b>${G.round}/${ROUNDS}</b></div><div class="${G.phase==='bid'&&G.mode==='pvp'&&G.turn==='cpu'?'on':''}"><small>فلوس ${nm('cpu')}</small><b>${G.cpu.m}م</b></div></div>`;
+
+function draw(){
+  if(G.phase==='pk'||G.phase==='pkend'){pkDraw();return}
+  if(G.phase==='pkfinal'){fDraw();return}
+  if(G.phase==='lk'||G.phase==='lkend'){lkDraw();return}
+  if(G.phase==='who'){$.innerHTML=`<div class="card c"><h2>${G.type==='packs'?'📦 الباكات':G.type==='luck'?'🍀 إنت وحظك':'🔨 المزاد'}</h2><p>هتلعب إزاي؟</p><button class="go" data-a="mode" data-m="cpu">العب ضد الكمبيوتر</button><button class="go" data-a="mode" data-m="pvp">لاعبين على نفس الجهاز</button><button data-a="home" style="width:100%;margin-top:8px">رجوع</button></div>`;return}
+  if(G.phase==='league'){$.innerHTML=`<div class="card c"><h2>اللاعيبة جايين منين؟</h2><div class="btns">${Object.keys(LG).map(k=>`<button data-a="new" data-m="${G.mode}" data-l="${k}">${LG[k]}</button>`).join('')}</div><button data-a="home" style="width:100%;margin-top:8px">رجوع</button></div>`;return}
+  if(G.phase==='start'){
+    $.innerHTML=`<div class="card c"><p>كل واحد فينا يبني تشكيلة ١-٢-٢-١: <b>حارس، مدافعين، لاعبين وسط، مهاجم، ومدرب</b>.</p><p>معاك <b>${START} مليون</b> و${ROUNDS} مزادات بالترتيب. اللي يخسر المزاد ياخد لاعب عشوائي في نفس المركز، ممكن يطلع أقوى أو أضعف.</p><p>بعدها الذكاء الصناعي يلعب المباراة بين التشكيلتين، والأقوى يكسب.</p><p>في وضع لاعبين، الدور بيتبادل: اللي دوره يعرض أو ينسحب وبعدين يسلّم الجهاز لصاحبه.</p><p>📦 <b>الباكات:</b> كل واحد فيكم بيجيله ٤ باكات مقفولة (غير بتوع التاني) جواها لاعيبة مجهولين. بتفتح باكة وتاخد اللاعب، أو تغيّرها مرة واحدة وتاخد التانية غصب. وفي اللعبة كلها فيه كرتين بس مستخبيين مع اللاعيبة: كرت السرقة (مرة واحدة) وكرت تاني، وبيتستخدموا بعد ما التشكيلة تخلص.</p><p>🍀 <b>إنت وحظك:</b> ٣ باكات، على كل واحدة صورة نجمها وتحتها ٣ تلميحات عن اللاعيبة اللي جواها (زي كام لاعب معتزل، أو كاسب كأس العالم أو أبطال أوروبا، أو فايز بالكرة الذهبية)، وجواها ١١ لاعب بتشكيلة كاملة. فيه باكة متوسطة وحلوة وأحلى، بس مش مكتوب مين مين. تقدر تستفسر عن باكتين بس عشان تعرف حكمهم: حلو (لاعب يتصاب وينزل أحسن منه، أو نجم في أحسن حالاته، أو تنزل كسبان) ولا وحش (إصابة، إيقاف، إرهاق، أو تنزل خسران). وبعدين اختار والمباراة تتلعب.</p><button class="go" data-a="type" data-t="auction">🔨 المزاد</button><button class="go" data-a="type" data-t="packs">📦 الباكات</button><button class="go" data-a="type" data-t="luck">🍀 إنت وحظك</button></div>`;
+    return;
+  }
+  if(G.phase==='match'){
+    const S=G.sim;
+    if(!S){$.innerHTML=`<div class="card c"><h2>⏳ الذكاء الصناعي بيجهز المباراة</h2><p>ممكن يطلب إذنك الأول.</p></div>`+teams();return}
+    const i=S.i,l0=S.lines[i-1],sc=l0?l0.s:{me:0,cpu:0},done=i>=S.lines.length,mv=S.mv;
+    const fx=l0&&l0.k==='goal'?`<div class="net"><span class="ball">⚽</span><b class="gl">جووول!</b></div>`:'';
+    $.innerHTML=`<div class="card c"><div class="score"><span>${nm('me')}</span><b>${sc.me}</b><span>-</span><b>${sc.cpu}</b><span>${nm('cpu')}</span></div><p class="tick">⏱️ ${l0?l0.m:0} د</p>${fx}`+S.lines.slice(0,i).reverse().map(l=>`<p class="ev k-${l.k}${l.v?' vd':''}"><b>${l.m} د</b> ${EM[l.k]||''} ${l.t}</p>`).join('')+(done?`<h2 class="${S.w==='me'||G.mode==='pvp'?'win':'lose'}">${G.mode==='pvp'?'🏆 '+nm(S.w)+' كسب المباراة!':S.w==='me'?'🏆 إنت كسبت المباراة!':'الكمبيوتر كسب المباراة'}</h2>${S.pen?`<p>تعادل ${sc.me}-${sc.cpu}، والفوز بركلات الترجيح.</p>`:''}<div class="mv">⭐ رجل المباراة<br><b>${mv.n}</b><br>${nm(mv.side)} · تقييم ${mv.r}</div><button class="go" data-a="new" data-m="${G.mode}" data-l="${G.lg}">العب تاني</button><button data-a="home" style="width:100%;margin-top:8px">الرئيسية</button>`:`<button data-a="skip">تخطي</button>`)+`</div>`+teams();
+    return;
+  }
+  if(G.phase==='reveal'){
+    const r=G.res,mine=r.w==='me',it=G.item,g=r.gift,last=G.round>=ROUNDS;
+    const cmp=g.r>it.r?'أقوى 🔥':g.r<it.r?'أضعف 😅':'بنفس المستوى';
+    $.innerHTML=bar()+`<div class="card c"><h2>${G.mode==='pvp'?'🎉 '+nm(r.w)+' كسب':mine?'🎉 كسبت':'😬 الكمبيوتر كسب'} ${it.n} بسعر ${r.p} مليون</h2><p>${G.mode==='pvp'?nm(mine?'cpu':'me')+' خد':mine?'الكمبيوتر خد':'إنت خدت'} ${PN[g.pos]} عشوائي مجانًا:</p><div class="stage"><div class="r">${g.r}</div><small>${SL[g.lg]}</small><h3>${g.n}</h3></div><p>مقارنة بـ ${it.n} (${it.r}): <b>${cmp}</b></p><button class="go" data-a="${last?'match':'next'}">${last?'ابدأ المباراة':'الجولة الجاية'}</button></div>`+teams();
+    return;
+  }
+  const base=G.leader?G.bid:BASE,it=G.item;
+  const opts=G.leader?[base+1,base+5,base+10,base+25]:[BASE,BASE+5,BASE+10,BASE+25];
+  const line=G.leader?`أعلى عرض: <b>${G.bid} مليون</b> (${nm(G.leader)})`:`مفيش عروض، السعر يبدأ من ${BASE} مليون`;
+  $.innerHTML=bar()+`<div class="card c"><div class="stage"><div class="r">${it.r}</div><small>${PN[it.pos]} · ${SL[it.lg]}</small><h2>${it.n}</h2></div>${G.mode==='pvp'?`<p class="turn">🎯 الدور على ${nm(G.turn)}</p>`:''}<p>${line}</p><p class="msg">${G.msg}</p><div class="btns">${opts.map(b=>`<button data-b="${b}" ${G.wait||b>G[G.turn].m?'disabled':''}>${b} مليون</button>`).join('')}<button class="fold" data-a="fold" ${G.wait?'disabled':''}>انسحب</button></div></div>`+teams();
+}
+$.onclick=e=>{
+  const b=e.target.closest('button');if(!b||b.disabled)return;
+  const a=b.dataset.a;
+  if(a==='type'){G={phase:'who',type:b.dataset.t};draw()}else if(a==='mode'){G={phase:'league',type:G.type,mode:b.dataset.m};draw()}else if(a==='new')newGame(b.dataset.m,b.dataset.l);else if(a==='next')startRound();else if(a==='fold')fold();
+  else if(a==='match')startMatch();else if(a==='pk')pick1(+b.dataset.i);else if(a==='keep')keep();else if(a==='swap')swap();else if(a==='card')useX(b.dataset.t);else if(a==='pknext')(G.round>=ROUNDS?finalStart():pkRound());else if(a==='fsh')fsh(b.dataset.t,+b.dataset.v);else if(a==='fcard'){G.F.sel={t:b.dataset.t,c:b.dataset.c};draw()}else if(a==='fcancel'){G.F.sel=null;draw()}else if(a==='ftarget')ftarget(+b.dataset.j);else if(a==='fgo')startMatch();else if(a==='lkask')lkAsk(+b.dataset.i);else if(a==='lkpick')lkPick(+b.dataset.i);else if(a==='home'){clearInterval(tm);G={phase:'start'};draw()}
+  else if(a==='skip'){clearInterval(tm);G.sim.i=G.sim.lines.length;draw()}
+  else if(b.dataset.b)bidMe(+b.dataset.b);
+};
+draw();
+</script>
+</body>
+</html>
